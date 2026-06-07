@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "env": {
+    "VITE_BACKEND_URL": "@vite_backend_url",
+    "VITE_RAZORPAY_KEY_ID": "@vite_razorpay_key_id"
+  },
+  "routes": [
+    {
+      "src": "/index.html",
+      "status": 200
+    },
+    {
+      "src": "^/(?!api|assets).*",
+      "dest": "/index.html"
+    }
+  ]
+}
