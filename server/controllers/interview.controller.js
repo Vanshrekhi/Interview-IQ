@@ -87,10 +87,16 @@ export const generateQuestion = async (req, res) => {
     let { role, experience, mode, resumeText, projects, skills } = req.body
 
     role = role?.trim();
-    experience = experience?.trim();
+    experience = experience?.toString().trim();
     mode = mode?.trim();
 
-    if (!role || !experience || !mode) {
+    if (
+      role === undefined ||
+      role === "" ||
+      experience === undefined ||
+      mode === undefined ||
+      mode === ""
+    ) {
       return res.status(400).json({ message: "Role, Experience and Mode are required." })
     }
 
