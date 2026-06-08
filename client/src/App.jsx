@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const result = axios.get(ServerUrl + "/api/user/current-user", {
+        const result = await axios.get(ServerUrl + "/api/user/current-user", {
   withCredentials: true
 }
         )
