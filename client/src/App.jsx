@@ -1,9 +1,10 @@
+import axios from "axios"
+axios.defaults.withCredentials = true;
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Auth from './pages/Auth'
 import { useEffect } from 'react'
-import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { setUserData } from './redux/userSlice'
 import InterviewPage from './pages/InterviewPage'
