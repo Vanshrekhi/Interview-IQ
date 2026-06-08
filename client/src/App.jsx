@@ -12,7 +12,8 @@ import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 
-export const ServerUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000"
+export const ServerUrl = import.meta.env.VITE_BACKEND_URL 
+console.log("Hello ")
 
 function App() {
 
