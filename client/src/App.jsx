@@ -12,7 +12,7 @@ import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 
-export const ServerUrl = import.meta.env.VITE_BACKEND_URL 
+export const ServerUrl = import.meta.env.VITE_SERVAL_URL
 console.log(ServerUrl)
 
 function App() {
