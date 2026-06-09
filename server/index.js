@@ -11,7 +11,12 @@ import paymentRouter from "./routes/payment.route.js"
 
 const app = express()
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: function(origin, cb) {
+    const allowed = [process.env.FRONTEND_URL, 'http://localhost:5173']
+    if (!origin) return cb(null, true) // allow server-to-server or tools without origin
+    if (allowed.indexOf(origin) !== -1) return cb(null, true)
+    return cb(new Error('Not allowed by CORS'))
+  },
   credentials: true
 }))
 
