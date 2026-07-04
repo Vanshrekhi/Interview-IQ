@@ -179,7 +179,7 @@ function Step2Interview({ interviewData, onFinish }) {
   useEffect(() => {
     if (isIntroPhase) return;
     if (!currentQuestion) return;
-
+    
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -196,10 +196,10 @@ function Step2Interview({ interviewData, onFinish }) {
   }, [isIntroPhase, currentIndex])
 
   useEffect(() => {
-    if (!isIntroPhase && currentQuestion) {
-      setTimeLeft(currentQuestion.timeLimit || 60);
-    }
-  }, [currentIndex]);
+  if (!isIntroPhase && currentQuestion) {
+    setTimeLeft(currentQuestion.timeLimit || 60);
+  }
+}, [currentIndex]);
 
 
   useEffect(() => {
@@ -251,23 +251,24 @@ function Step2Interview({ interviewData, onFinish }) {
     setIsSubmitting(true)
 
     try {
-      const result = await axiosInstance.post("/api/interview/submit-answer", {
+      const result = await axios.post(ServerUrl + "/api/interview/submit-answer", {
         interviewId,
         questionIndex: currentIndex,
         answer,
-        timeTaken: currentQuestion.timeLimit - timeLeft,
-      })
+        timeTaken:
+          currentQuestion.timeLimit - timeLeft,
+      } , {withCredentials:true})
 
       setFeedback(result.data.feedback)
       speakText(result.data.feedback)
       setIsSubmitting(false)
     } catch (error) {
-      console.log(error)
-      setIsSubmitting(false)
+console.log(error)
+setIsSubmitting(false)
     }
   }
 
-  const handleNext = async () => {
+  const handleNext =async () => {
     setAnswer("");
     setFeedback("");
 
@@ -283,14 +284,14 @@ function Step2Interview({ interviewData, onFinish }) {
       if (isMicOn) startMic();
     }, 500);
 
-
+   
   }
 
   const finishInterview = async () => {
     stopMic()
     setIsMicOn(false)
     try {
-      const result = await axiosInstance.post("/api/interview/finish", { interviewId })
+      const result = await axios.post(ServerUrl+ "/api/interview/finish" , { interviewId} , {withCredentials:true})
 
       console.log(result.data)
       onFinish(result.data)
@@ -300,7 +301,7 @@ function Step2Interview({ interviewData, onFinish }) {
   }
 
 
-  useEffect(() => {
+   useEffect(() => {
     if (isIntroPhase) return;
     if (!currentQuestion) return;
 
@@ -411,35 +412,35 @@ function Step2Interview({ interviewData, onFinish }) {
             className="flex-1 bg-gray-100 p-4 sm:p-6 rounded-2xl resize-none outline-none border border-gray-200 focus:ring-2 focus:ring-emerald-500 transition text-gray-800" />
 
 
-          {!feedback ? (<div className='flex items-center gap-4 mt-6'>
+         {!feedback ? ( <div className='flex items-center gap-4 mt-6'>
             <motion.button
               onClick={toggleMic}
               whileTap={{ scale: 0.9 }}
               className='w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-black text-white shadow-lg'>
-              {isMicOn ? <FaMicrophone size={20} /> : <FaMicrophoneSlash size={20} />}
+              {isMicOn ? <FaMicrophone size={20} /> : <FaMicrophoneSlash size={20}/>}
             </motion.button>
 
             <motion.button
-              onClick={submitAnswer}
-              disabled={isSubmitting}
+            onClick={submitAnswer}
+            disabled={isSubmitting}
               whileTap={{ scale: 0.95 }}
               className='flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 sm:py-4 rounded-2xl shadow-lg hover:opacity-90 transition font-semibold disabled:bg-gray-500'>
-              {isSubmitting ? "Submitting..." : "Submit Answer"}
+              {isSubmitting?"Submitting...":"Submit Answer"}
 
             </motion.button>
 
-          </div>) : (
-            <motion.div
-              initial={{ opacity: 0 }}
+          </div>):(
+            <motion.div 
+             initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className='mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm'>
+            className='mt-6 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl shadow-sm'>
               <p className='text-emerald-700 font-medium mb-4'>{feedback}</p>
 
               <button
-                onClick={handleNext}
+              onClick={handleNext}
 
-                className='w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-1'>
-                Next Question <BsArrowRight size={18} />
+               className='w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white py-3 rounded-xl shadow-md hover:opacity-90 transition flex items-center justify-center gap-1'>
+                Next Question <BsArrowRight size={18}/>
               </button>
 
             </motion.div>

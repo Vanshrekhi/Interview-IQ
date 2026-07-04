@@ -9,14 +9,10 @@ import userRouter from "./routes/user.route.js"
 import interviewRouter from "./routes/interview.route.js"
 import paymentRouter from "./routes/payment.route.js"
 
-const CLIENT_URL = process.env.CLIENT_URL || "https://interview-iq-1-client.onrender.com"
 const app = express()
-app.set("trust proxy", 1)
 app.use(cors({
-    origin: CLIENT_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    origin:"https://interview-iq-1-client.onrender.com",
+    credentials:true
 }))
 
 app.use(express.json())
