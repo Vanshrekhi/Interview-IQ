@@ -10,7 +10,6 @@ import interviewRouter from "./routes/interview.route.js"
 import paymentRouter from "./routes/payment.route.js"
 
 const app = express()
-app.set("trust proxy", 1)
 app.use(cors({
     origin:"https://interview-iq-1-client.onrender.com",
     credentials:true
