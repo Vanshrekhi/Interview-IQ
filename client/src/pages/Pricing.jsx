@@ -3,7 +3,7 @@ import { FaArrowLeft, FaCheckCircle } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { motion } from "motion/react";
 import axios from 'axios';
-import { ServerUrl } from '../App';
+import axiosInstance from '../utils/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/userSlice';
 function Pricing() {
@@ -66,12 +66,11 @@ function Pricing() {
       plan.id === "basic" ? 100 :
       plan.id === "pro" ? 500 : 0;
 
-      const result = await axios.post(ServerUrl + "/api/payment/order" , {
-        planId: plan.id,
-        amount: amount,
-        credits: plan.credits,
-      },{withCredentials:true})
-      
+const result = await axiosInstance.post("/api/payment/order", {
+  planId: plan.id,
+  amount: amount,
+  credits: plan.credits,
+})
 
       const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -82,7 +81,7 @@ function Pricing() {
       order_id: result.data.id,
 
       handler:async function (response) {
-        const verifypay = await axios.post(ServerUrl + "/api/payment/verify" ,response , {withCredentials:true})
+        const verifypay = await axiosInstance.post("/api/payment/verify", response)
         dispatch(setUserData(verifypay.data.user))
 
           alert("Payment Successful 🎉 Credits Added!");

@@ -6,8 +6,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { FaUserAstronaut } from "react-icons/fa";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { ServerUrl } from '../App';
+import axiosInstance from '../utils/axiosInstance';
 import { setUserData } from '../redux/userSlice';
 import AuthModel from './AuthModel';
 function Navbar() {
@@ -18,18 +17,18 @@ function Navbar() {
     const dispatch = useDispatch()
     const [showAuth, setShowAuth] = useState(false);
 
-    const handleLogout = async () => {
-        try {
-            await axios.get(ServerUrl + "/api/auth/logout" , {withCredentials:true})
-            dispatch(setUserData(null))
-            setShowCreditPopup(false)
-            setShowUserPopup(false)
-            navigate("/")
-
-        } catch (error) {
-            console.log(error)
-        }
+const handleLogout = async () => {
+    try {
+        await axiosInstance.get("/api/auth/logout")
+        localStorage.removeItem("token")
+        dispatch(setUserData(null))
+        setShowCreditPopup(false)
+        setShowUserPopup(false)
+        navigate("/")
+    } catch (error) {
+        console.log(error)
     }
+}
   return (
     <div className='bg-[#f3f3f3] flex justify-center px-4 pt-6'>
         <motion.div 
