@@ -18,7 +18,6 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
-app.options("*", cors({ origin: CLIENT_URL, credentials: true }))
 
 app.use(express.json())
 app.use(cookieParser())
